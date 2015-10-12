@@ -55,3 +55,7 @@ docs/_build/
 
 # PyBuilder
 target/
+
+# Dataset
+dataset/cornell movie-dialogs corpus/
+dataset/cornell_movie_dialogs_corpus.zip
