@@ -4,7 +4,7 @@
 from storm.locals import *
 from corpus import *
 
-database = create_database("sqlite:corpus.db")
+database = create_database("sqlite:dataset/corpus.db")
 store = Store(database)
 
 print MovieTitlesMetadata.CREATE_SQL
