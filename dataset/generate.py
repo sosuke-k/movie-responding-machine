@@ -24,12 +24,17 @@ print MovieGenreLine.CREATE_SQL
 store.execute(MovieGenreLine.CREATE_SQL)
 store.commit()
 
+MovieTitlesMetadata.genres = ReferenceSet(MovieTitlesMetadata.id,
+                                          MovieGenreLine.movie_id,
+                                          MovieGenreLine.genre_id,
+                                          Genre.id)
+
 f = open(MOVIE_TITLES_METADATA_PATH)
 genres = Set([])
 line = f.readline()
 while line:
-    genrelist = line.split(' +++$+++ ')[5][1:-2].split(', ')
-    for genre in genrelist:
+    genre_list = line.split(' +++$+++ ')[5][1:-2].split(', ')
+    for genre in genre_list:
         if genre != '':
             genres.add(genre[1:-1])
     line = f.readline()
@@ -40,3 +45,26 @@ for genre_name in genres:
     genre = Genre(genre_name.decode('utf-8'))
     store.add(genre)
 store.commit()
+
+f = open(MOVIE_TITLES_METADATA_PATH)
+line = f.readline()
+while line:
+    metadata = line.split(' +++$+++ ')
+    id = int(metadata[0][1:])
+    title = metadata[1]
+    year = int(metadata[2][0:4])
+    rating = float(metadata[3])
+    votes = int(metadata[4])
+    movie = MovieTitlesMetadata(id, title.decode('utf-8'), year, rating, votes)
+    store.add(movie)
+    store.commit()
+
+    genre_list = metadata[5][1:-2].split(', ')
+    for genre_name in genre_list:
+        if genre_name != '':
+            genre = store.find(Genre, Genre.name == genre_name.decode('utf-8')).one()
+            movie.genres.add(genre)
+
+    store.commit()
+    line = f.readline()
+f.close

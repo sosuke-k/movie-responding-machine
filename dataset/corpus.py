@@ -17,14 +17,15 @@ from storm.locals import *
 class MovieTitlesMetadata(object):
     __storm_table__ = "movie_titles_metadata"
     CREATE_SQL = "CREATE TABLE " + __storm_table__ + \
-        " (id INTEGER PRIMARY KEY, title VARCHAR, year INTEGER, rating INTEGER, votes INTEGER)"
+        " (id INTEGER PRIMARY KEY, title VARCHAR, year INTEGER, rating FLOAT, votes INTEGER)"
     id = Int(primary=True)
     title = Unicode()
     year = Int()
-    rating = Int()
+    rating = Float()
     votes = Int()
 
-    def __init__(self, title, year, rating, votes):
+    def __init__(self, id, title, year, rating, votes):
+        self.id = id
         self.title = title
         self.year = year
         self.rating = rating
