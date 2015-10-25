@@ -15,23 +15,36 @@ from storm.locals import *
 
 
 class MovieTitlesMetadata(object):
-    CREATE_SQL = "CREATE TABLE movie_titles_metadata (id INTEGER PRIMARY KEY, movie_title VARCHAR, movie_year INTEGER, imdb INTEGER, no INTEGER)"
     __storm_table__ = "movie_titles_metadata"
+    CREATE_SQL = "CREATE TABLE " + __storm_table__ + \
+        " (id INTEGER PRIMARY KEY, title VARCHAR, year INTEGER, rating INTEGER, votes INTEGER)"
     id = Int(primary=True)
-    movie_title = Unicode()
-    movie_year = Int()
-    imdb = Int()
-    no = Int()
+    title = Unicode()
+    year = Int()
+    rating = Int()
+    votes = Int()
+
+    def __init__(self, title, year, rating, votes):
+        self.title = title
+        self.year = year
+        self.rating = rating
+        self.votes = votes
 
 
 class Genre(object):
-    __storm_table__ = "genre"
+    __storm_table__ = "genres"
+    CREATE_SQL = "CREATE TABLE " + __storm_table__ + " (id INTEGER PRIMARY KEY, name VARCHAR)"
     id = Int(primary=True)
     name = Unicode()
 
+    def __init__(self, name):
+        self.name = name
+
 
 class MovieGenreLine(object):
-    __storm_table__ = "movie_genre_line"
-    id = Int(primary=True)
+    __storm_table__ = "movie_genre_lines"
+    __storm_primary__ = "movie_id", "genre_id"
+    CREATE_SQL = "CREATE TABLE " + __storm_table__ + \
+        " (movie_id INTEGER, genre_id INTEGER, PRIMARY KEY (movie_id, genre_id))"
     movie_id = Int()
     genre_id = Int()
