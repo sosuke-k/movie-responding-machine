@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-from sets  import Set
+from sets import Set
 
 filepath = 'cornell movie-dialogs corpus/movie_titles_metadata.txt'
 genres = Set([])
