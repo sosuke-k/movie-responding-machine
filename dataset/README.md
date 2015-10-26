@@ -29,5 +29,5 @@ This is memo when I dealt with corpus problems.
     * for example, line 34, `1989/I`
 * I adjust title data for **Acute accent** manually.
     * line 115, `léon`
-* I adjust genre data for **duplication**.
+* I ignored **duplication** for genre data.
     * line 58, `['horror', 'mystery', 'mystery', 'sci-fi', 'sci-fi']`

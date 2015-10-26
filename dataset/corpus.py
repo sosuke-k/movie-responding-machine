@@ -59,12 +59,12 @@ class Parser:
 
     def movie_titles_metadata(self, line):
         metadata = line.split(self.separator)
-        id = int(metadata[0][1:])
-        title = metadata[1]
-        year = int(metadata[2][0:4])
-        rating = float(metadata[3])
-        votes = int(metadata[4])
-        genre_list = metadata[5][1:-2].split(", ")
+        id = int(metadata[0][1:])                   # e.g. m0
+        title = metadata[1]                         # e.g. 10 things i hate about you
+        year = int(metadata[2][0:4])                # e.g. 1999
+        rating = float(metadata[3])                 # e.g. 6.90
+        votes = int(metadata[4])                    # e.g. 62847
+        genre_list = metadata[5][1:-2].split(", ")  # e.g. ['comedy', 'romance']\n
         genres = Set([])
         for genre_name in genre_list:
             if genre_name != "":
