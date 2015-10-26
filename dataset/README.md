@@ -1,6 +1,6 @@
 ## Abstract
 
-This module include some classes extending [storm](https://storm.canonical.com/) ORM for corpus data.
+This module include some classes extending [storm](https://storm.canonical.com/) ORM for [corpus](http://www.mpi-sws.org/~cristian/Cornell_Movie-Dialogs_Corpus.html) data.
 
 ## Class List
 
@@ -10,18 +10,18 @@ This module include some classes extending [storm](https://storm.canonical.com/)
 
 ## Usage
 
+### Relationship setting
+
 ```
-Company.accountants = ReferenceSet(Company.id,
-  CompanyAccountant.company_id,
-  CompanyAccountant.accountant_id,
-  Accountant.id)
+MovieTitlesMetadata.genres = ReferenceSet(MovieTitlesMetadata.id,
+                                          MovieGenreLine.movie_id,
+                                          MovieGenreLine.genre_id,
+                                          Genre.id)
 ```
 
-## NOTE
+## Corpus Problem
 
-This is memo when I dealed with corpus problems.
-
-## Problem
+This is memo when I dealt with corpus problems.
 
 ### movie_titles_metadata.txt
 
@@ -29,3 +29,5 @@ This is memo when I dealed with corpus problems.
     * for example, line 34, `1989/I`
 * I adjust title data for **Acute accent** manually.
     * line 115, `léon`
+* I adjust genre data for **duplication**.
+    * line 58, `['horror', 'mystery', 'mystery', 'sci-fi', 'sci-fi']`
