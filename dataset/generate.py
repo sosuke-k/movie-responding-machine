@@ -1,34 +1,20 @@
-#!/usr/bin/python
+#! /usr/bin/env python
 # -*- coding: utf-8 -*-
 
 from sets import Set
 from storm.locals import *
-from corpus import *
+from mdcorpus.mdcorpus import *
+from mdcorpus.parser import *
 
-MOVIE_TITLES_METADATA_PATH = 'dataset/cornell movie-dialogs corpus/movie_titles_metadata.txt'
-DB_PATH = "dataset/corpus.db"
+MOVIE_TITLES_METADATA_PATH = "dataset/cornell movie-dialogs corpus/movie_titles_metadata.txt"
+# DB_PATH = "dataset/corpus.db"
 
-print "CREATE " + DB_PATH
+# print "CREATE " + DB_PATH
 database = create_database("sqlite:")
 store = Store(database)
-
-print MovieTitlesMetadata.CREATE_SQL
 store.execute(MovieTitlesMetadata.CREATE_SQL)
-# store.commit()
-
-print Genre.CREATE_SQL
 store.execute(Genre.CREATE_SQL)
-# store.commit()
-
-print MovieGenreLine.CREATE_SQL
 store.execute(MovieGenreLine.CREATE_SQL)
-# store.commit()
-
-print "initializing many to many"
-MovieTitlesMetadata.genres = ReferenceSet(MovieTitlesMetadata.id,
-                                          MovieGenreLine.movie_id,
-                                          MovieGenreLine.genre_id,
-                                          Genre.id)
 
 parser = Parser()
 
