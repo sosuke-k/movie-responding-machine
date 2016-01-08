@@ -1,0 +1,124 @@
+\documentclass{deimj}
+%\usepackage[dvipdfm]{graphicx}
+%\usepackage{latexsym}
+%\usepackage{txfonts}
+%\usepackage[fleqn]{amsmath}
+%\usepackage[psamsfonts]{amssymb}
+%\usepackage[deluxe]{otf}
+
+% 印刷位置調整 %
+% 必要に応じて値を変更してください．
+\hoffset -10mm % <-- 左に 10mm 移動
+\voffset -10mm % <-- 上に 10mm 移動
+
+\newcommand{\AmSLaTeX}{%
+ $\mathcal A$\lower.4ex\hbox{$\!\mathcal M\!$}$\mathcal S$-\LaTeX}
+\newcommand{\PS}{{\scshape Post\-Script}}
+\def\BibTeX{{\rmfamily B\kern-.05em{\scshape i\kern-.025em b}\kern-.08em
+ T\kern-.1667em\lower.7ex\hbox{E}\kern-.125em X}}
+
+\papernumber{DEIM Forum 2016}% XX-Y}
+
+\jtitle{発話者を考慮した学習に基づく対話システムの検討}
+%\jsubtitle{サブタイトル} <- サブタイトルを付けたいときはこの行の先頭の % を取る
+\authorlist{%
+ \authorentry[sow@suou.waseda.jp]{河東 宗祐}{Sosuke Kato}{UnivW}% 
+ \authorentry[tetsuya@waseda.jp]{酒井 哲也}{Tetsuya Sakai}{UnivW}% 
+}
+\affiliate[UnivW]{早稲田大学基幹理工学部情報理工学科\hskip1zw
+  〒169--8555 東京都新宿区大久保 3--4--1}
+ {School of Computer Science and Engineering, Waseda University\\
+  3--4--1 Okubo, Shinjuku-ku, Tokyo, 169--8555 Japan
+  169--8555 Japan}
+
+%\MailAddress{$\dagger$hanako@deim.ac.jp,
+% $\dagger\dagger$\{taro,jiro\}@jforum.co.jp}
+
+\begin{document}
+\pagestyle{empty}
+\begin{jabstract}
+対話システムの構築は人工知能にとって重要なタスクである。近年、文脈考慮や意図推定などの課題に対してRNN(Recurrent Neural Network)を用いるなど様々なアプローチが研究されている。本論文では、非タスク指向型対話において、性格をシミュレートした対話システムの構築を試みる。データドリブンなアプローチにおいて、RNN Encoder-Decoder モデルを用いて発話者を考慮することで性格のシミュレートが可能なのか検討する。データセットは映画のキャラクター情報を含んだ台詞のコーパスと、実際のツイートの会話コーパスを用いる。
+\end{jabstract}
+
+\begin{jkeyword}
+対話システム，RNN
+\end{jkeyword}
+\maketitle
+
+\section{はじめに}
+\label{sec:introduction}
+
+人工知能実現に向けて様々な対話システムの研究がなされている。対話システムにおける入出力にはテキストや音声や画像、更にはロボットのアームの駆動などが考えられるが、本研究で扱うテキストを入力としてテキストを出力とするような対話システムを考えることは人工知能における言語理解を考えることにつながる。テキストを入出力とするような対話システムの歴史をさかのぼると、初めて複数回の会話を想定したElizaから始まり、様々な対話システムがある。%ここしっかり
+また、テキストを入出力とするような対話システムの設計において対話のドメインとその対話システムを使う目的を考えることが必要であるが、〜のような対話によるチケット予約システムを例にとると、対話のドメインは鉄道の時刻表であり目的はチケットを予約することである。また、対話のドメインを限定しないものをオープンドメインといい、目的が対話自体であるような場合を非指向型タスクというが、上にあげたElizaなどがそれである。
+また、Elizaはルールベースな対話システムであり、ある定められた規則に従って返答をするものである。このような、ルールベースな対話システムをオープンドメインで実用に近づけるにはより多くの規則を追加していく必要がある。
+近年、マイクロブログなどの普及がすすみインターネット上に公開されている会話データの量が増えてきている。伴って、データドリブンなアプローチによる対話システムの構築を試みる研究が多くなされている。
+
+対話システム構築における本研究の位置づけを表に示す。
+
+\begin{table}[h]
+  \centering
+  \begin{tabular}{|l|c|} \hline
+    　入力 & テキスト \\ \hline
+    　出力 & テキスト \\ \hline
+    　ドメイン & オープンドメイン \\ \hline
+    　目的 & 非指向型 \\ \hline
+    　アプローチ & データドリブン \\ \hline
+  \end{tabular}
+\end{table}
+
+表で示したような対話システムにはRSMやあれ%コンテキストもリカレントにするやつ
+などがある。
+
+本研究とRSMとの違いは会話の発話者を考慮し、対話システムの構築において発話者のシミュレートを試みた点である。
+発話者のシミュレートすることは人工知能が人間の性格を模倣することにつながると考える。
+%データドリブンなアプローチにおいて、トレーニングのためのデータをある発話者だけに限定するには、会話データが増えてきたとはいえまだあまりに少ない。
+
+\section{関連研究}
+\label{sec:related}
+
+%コンテキストもリカレントにするやつとか
+
+表に示したような対話システムにおいて、Recurrent Neural Network (RNN)を用いたシステムの研究
+
+
+\section{問題設定}
+\label{sec:problem}
+
+発話者の性格をシミュレートしたいので、発話者のネガポジがわかるようなトレーニングデータと生成されて欲しい会話。
+
+\section{提案手法}
+\label{sec:proposal}
+
+原稿のスタイルは，A4サイズで，9ポイントのフォントを使用し，2段組み，シ
+ングルスペースとして下さい．
+
+\section{実験}
+\label{sec:experiment}
+
+よりはっきりした意図を持ったセリフという意味でフィクションの会話データセットとマイクロブログの書き言葉と話し言葉の中間のデータセット
+
+
+\section{おわりに}
+\label{sec:conclusion}
+
+ツイッターにおけるリプライでない投稿は人に向けて言っているわけではない。
+
+%\vspace{30mm} <- 文献が本文と近すぎるときは適宜利用してください．
+\vspace{2em}
+
+\begin{thebibliography}{99}
+\bibitem{Lifeng2015}
+  SHANG, Lifeng; LU, Zhengdong; LI, Hang.
+  Neural Responding Machine for Short-Text Conversation.
+  arXiv preprint arXiv:1503.02364, 2015.
+%\bibitem{Codd1970}
+%  E. F. Codd, 
+%  ``A Relational Model of Data for Large Shared Data Banks,''
+%  Communications of the {ACM} (CACM), Vol. 13, No. 6, pp. 377--387, 1970.
+\end{thebibliography}
+
+
+
+
+
+\end{document}
